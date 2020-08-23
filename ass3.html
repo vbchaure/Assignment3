@@ -1,0 +1,138 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>025 Assignment 3</title>
+    <style type="text/css">
+    		body{
+    			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    		}
+            select {
+              width: 50%;
+              padding: 16px 20px;
+              border: none;
+              border-radius: 4px;
+              background-color: #f1f1f1;
+            }
+			#customers {
+			  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			  border-collapse: collapse;
+			  width: 100%;
+			}
+
+			#customers td, #customers th {
+			  border: 1px solid #ddd;
+			  padding: 8px;
+			}
+
+			#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+			#customers tr:hover {background-color: #ddd;}
+
+			#customers th {
+			  padding-top: 12px;
+			  padding-bottom: 12px;
+			  text-align: left;
+			  background-color: #4CAF50;
+			  color: white;
+			}
+            #two{
+                color: #FFF;
+                background-color: green;
+                border: 1px solid green;
+                height: 30px;
+                width: 70px;
+                border-radius: 4px;
+            }
+            #two:hover{
+                background-color: #fff;
+                color: green;
+            }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div>
+    	<h1 style="text-align: center;color: green;">Restaurant page</h1>
+        <div >
+            
+                <label>Menu:</label><br><br>
+                <div>
+                    <select id="one">
+                        
+                    </select>
+                </div>
+                <br>
+                <div class="col-12 col-md-2" >
+
+                    <button type="submit" id="two">
+                        Submit
+                    </button>
+                </div>
+                
+            
+        </div>
+        <div>
+        <br><br>
+        </div>
+    
+       <div>
+            <table id="customers">
+                <tbody id="three">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>           
+                </tbody>
+            </table>
+        </div>
+    <script>
+        let url = "https://davids-restaurant.herokuapp.com/menu_items.json";
+
+let data = null;
+let buyItemList = [];
+
+$("document").ready(function(){
+    $.get(url,function(jsonObj,success){
+        data = jsonObj.menu_items;
+
+        for (const item in data) {
+                let temp = data[item].name.toLowerCase();
+                let opt=document.createElement("option");
+                opt.textContent=temp;
+                opt.value=item;
+                document.querySelector('#one').appendChild(opt);
+    
+            }
+    });
+
+
+    let updateCard = document.querySelector("#two");
+    updateCard.addEventListener('click',show);
+
+
+    function show() {
+        
+        document.querySelector('#three').innerHTML="";
+        let item=document.querySelector('#one').value;
+        let list=data[item];
+        for (value in list) {
+            let tr=document.createElement("tr");
+            let thsr=document.createElement("th");
+            thsr.textContent=value;
+            tr.appendChild(thsr);
+            let tdsr=document.createElement("td");
+            tdsr.textContent=list[value];
+            tr.appendChild(tdsr);
+            document.querySelector('#three').appendChild(tr);
+        }
+    }
+    
+    
+});
+    </script>
+</body>
+</html>
